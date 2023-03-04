@@ -1,58 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 typedef struct point {
-    // CHANGE
+    int x;
+    int y;
 } Point;
 
-struct triangle_static {
+typedef struct triangle_static {
     Point points[3];
-};
-typedef ... Triangle; // CHANGE
+} Triangle;
 
 void point_print(Point p) 
 {
     printf("(%d, %d)", p.x, p.y);
 }
 
-// CHANGE
-void point_move_horizontally(Point p, int units) 
+void point_move_horizontally(Point* p, int units) 
 {
-    p.x += units;
+    p->x += units;
 }
 
 void triangle_print(Triangle* t) 
 {
-    for (int i = 0; ... ; i++) { // CHANGE 
+    for (int i = 0; i < 3; i++) {
         point_print(t->points[i]);
     }
 }
 
 void triangle_move_horizontally(Triangle* t, int units) 
 {
-    for (int i = 0; ... ; i++) { // CHANGE 
-        t->points[i].x += units;
+    for (int i = 0; i < 3; i++) {
+        point_move_horizontally(&t->points[i], units);
     }
 }
 
 int main(void)
 {
-    Point* a = ... // CHANGE
+    Point* a = malloc(sizeof(Point));
     a->x = 0;
     a->y = 0;
 
     point_print(*a);
     printf("\n");
 
-    point_move_horizontally(*a, 5); // CHANGE
+    point_move_horizontally(a, 5);
 
     point_print(*a);
     printf("\n");
 
     free(a);
 
-    struct triangle_static* t = malloc(sizeof(struct triangle_static));
+    Triangle* t = malloc(sizeof(Triangle));
     t->points[0].x = 0;
     t->points[0].y = 0;
     t->points[1].x = 1;
@@ -68,7 +66,7 @@ int main(void)
     triangle_print(t);
     printf("\n");
 
-    free(...); // CHANGE
+    free(t);
 
     return 0;
 }
